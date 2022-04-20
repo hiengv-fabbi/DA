@@ -13,6 +13,9 @@ import networkx as nx
 from networkx.algorithms import tree
 from tkinter import *
 from PIL import Image, ImageTk
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+
+
 root = Tk()
 
 
@@ -25,7 +28,7 @@ def findIMG():
 
     # Nhập ảnh cần truy xuất
     # query =input("Enter your value: ")
-    global img1, photo, 
+    global img1, photo 
 
     query = filedialog.askopenfilename()
     
@@ -114,19 +117,20 @@ def findIMG():
 
     G1.remove_edges_from(edgerm)
 
+    fig2 = plt.figure()
     nx.draw(G1,node_color=color_map)
 
     img = nx.node_connected_component(G1, (query,))
 
     count = 0
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(7, 7))
     pos = 1
 
     for i in img: 
         str = ''.join(i)
         # print(str)
         ht_data = os.path.split(str)
-        print(ht_data[0], " ?= " , ht_query[0])
+        # print(ht_data[0], " ?= " , ht_query[0])
         if (ht_data[0] == ht_query[0]):
             count +=1
         image = mpimg.imread(str)
@@ -135,23 +139,36 @@ def findIMG():
         plt.imshow(image)
         plt.axis('off')
        
-    print(img)
-    plt.show()
+    # print(img)
+    # plt.show()
 
+    canvas = FigureCanvasTkAgg(fig, master = root)
+    canvas.get_tk_widget().place(x = 400, y=0 , width =1000, height =800)
+    canvas.draw()
+
+    canvas2 = FigureCanvasTkAgg(fig2, master = root)
+    canvas2.get_tk_widget().place(x = 0, y= 260 , width =400, height =560)
+    canvas2.draw()
+
+
+    # toolbar = NavigationToolbar2Tk(canvas2,root)
+    # toolbar.update()
     # (count/len(img))*100, '%'
     print('Độ chính xác: ', count , "/" , len(img) ," * 100 % = ", (count/len(img))*100, '%')
 
 
-label = Label(root, text="Chọn ảnh cần tìm kiếm:")
-label.place(x=20, y=100)
+
+photo = Label(root)
+photo.place(x=20,y=20)
+
 
 button = Button(root, text="Tìm kiếm",command=findIMG)
 button.place(x=50, y=125)
 
+label = Label(root, text="Chọn ảnh cần tìm kiếm:")
+label.place(x=20, y=100)
 
-photo = Label(root)
-photo.place(relwidth=0.30,relheight=0.15,x=20,y=20)
 
-root.geometry("500x400+10+20")
-root.eval('tk::PlaceWindow . center')
+root.geometry("1400x800+10+20")
+# root.eval('tk::PlaceWindow . center')
 root.mainloop()
