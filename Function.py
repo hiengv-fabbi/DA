@@ -31,4 +31,4 @@ def feat(img_path):
   return np.array(vgg16_feature_array)
 
 def Average(lst):
-    return sum(lst) / len(lst)
+    return sum(lst) / ( len(lst) - 1 )
