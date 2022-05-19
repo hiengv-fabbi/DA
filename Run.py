@@ -163,10 +163,10 @@ photo.place(x=20,y=20)
 
 
 button = Button(root, text="Tìm kiếm",command=findIMG)
-button.place(x=50, y=125)
+button.place(x=50, y=165)
 
 label = Label(root, text="Chọn ảnh cần tìm kiếm:")
-label.place(x=20, y=100)
+label.place(x=20, y=140)
 
 
 root.geometry("1400x800+10+20")
